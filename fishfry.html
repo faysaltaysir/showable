@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fish Fry for My Love 🐟❤️</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(to top, #0f2027, #203a43, #2c5364);
+    position: relative;
+  }
+
+  h1 {
+    position: absolute;
+    top: 5vh;
+    width: 100%;
+    color: #fff;
+    font-size: 5vw;
+    text-align: center;
+    animation: glow 2s ease-in-out infinite alternate;
+    z-index: 10;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 1vw #ffcc00, 0 0 2vw #ff6600; }
+    to   { text-shadow: 0 0 2vw #ff3300, 0 0 4vw #ffcc00; }
+  }
+
+  .pan {
+    width: 40vw;
+    height: 40vw;
+    max-width: 240px;
+    max-height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #666 70%, #333 100%);
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    box-shadow: 0 0.5vw 2vw rgba(0,0,0,0.7);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .pan:active {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 1vw 4vw rgba(255,150,0,0.7);
+  }
+
+  .pan img {
+    width: 95%;
+    height: 95%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .fish {
+    width: 8vw;
+    height: 4vw;
+    border-radius: 20px;
+    position: absolute;
+    animation: swim linear infinite;
+    opacity: 0.85;
+    z-index: 3;
+  }
+
+  .fish::before {
+    content: "";
+    position: absolute;
+    right: -2vw;
+    top: 1vw;
+    border: 2vw solid transparent;
+    border-left: 3vw solid currentColor;
+  }
+
+  @keyframes swim {
+    0% { left: -10vw; }
+    50% { left: 110vw; }
+    100% { left: -10vw; }
+  }
+
+  .flower {
+    position: absolute;
+    font-size: 5vw;
+    animation: fall linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes fall {
+    0% { top: -10vh; transform: rotate(0deg); opacity:1; }
+    100% { top: 110vh; transform: rotate(360deg); opacity:0; }
+  }
+
+  .bubble {
+    position: absolute;
+    background: rgba(255,255,255,0.7);
+    border-radius: 50%;
+    animation: rise linear infinite;
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  @keyframes rise {
+    0% { transform: translateY(0) scale(1); opacity:1; }
+    100% { transform: translateY(-120vh) scale(1.5); opacity:0; }
+  }
+
+  .note {
+    position: absolute;
+    font-size: 4vw;
+    color: #ffd;
+    text-shadow: 0 0 0.5vw #000;
+    animation: floatNote ease-in-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes floatNote {
+    0% { transform: translateY(0); opacity:0; }
+    20% { opacity:1; }
+    100% { transform: translateY(-30vh); opacity:0; }
+  }
+
+  .message {
+    position: absolute;
+    bottom: 5vh;
+    font-size: 4vw;
+    color: #ffdd99;
+    text-shadow: 0.2vw 0.2vw 0.5vw black;
+    opacity:0;
+    transform: scale(0.8);
+    transition: all 0.8s ease;
+    text-align: center;
+    padding: 0 5vw;
+    z-index: 8;
+  }
+
+  .show { opacity:1; transform: scale(1.1); }
+
+  /* Stars */
+  .star {
+    position: absolute;
+    width: 0.5vw;
+    height: 0.5vw;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle 2s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.3; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* Music control */
+  .music-btn {
+    position: absolute;
+    top: 1vh;
+    right: 2vw;
+    z-index: 20;
+    background: rgba(255,255,255,0.5);
+    border: none;
+    border-radius: 50%;
+    padding: 0.8vw;
+    cursor: pointer;
+    font-size: 4vw;
+  }
+</style>
+</head>
+<body>
+
+<h1>Special Fish Fry Just for You 🐟🔥</h1>
+
+<div class="pan" onclick="showMessage()">
+  <img src="us.jpg" alt="Our Picture">
+</div>
+
+<div class="message" id="msg">You’re the catch of my life ❤️</div>
+
+<!-- Background music -->
+<audio id="bgMusic" loop>
+  <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+<script>
+  const messages = [
+    "You’re the catch of my life ❤️",
+    "My heart fries for you 🔥🐟",
+    "You make my world sizzle ✨",
+    "With you, life tastes better 💕",
+    "You’re my forever snack 😘",
+    "Every bubble carries my love 💌",
+    "You’re my golden fish 🌟"
+  ];
+  let index = 0;
+
+  function showMessage() {
+    const msg = document.getElementById("msg");
+    msg.textContent = messages[index];
+    msg.classList.add("show");
+    index = (index + 1) % messages.length;
+
+    const note = document.createElement("div");
+    note.className = "note";
+    note.textContent = messages[Math.floor(Math.random()*messages.length)];
+    note.style.left = Math.random()*90 + "vw";
+    note.style.top = "80vh";
+    note.style.animationDuration = 5 + Math.random()*2 + "s";
+    document.body.appendChild(note);
+    setTimeout(()=>note.remove(),7000);
+  }
+
+  // Fishes
+  const fishColors = ["orange","gold","coral","lime","aqua","pink"];
+  for(let i=0;i<6;i++){
+    const fish = document.createElement("div");
+    fish.className="fish";
+    fish.style.background=fishColors[i];
+    fish.style.color=fishColors[i];
+    fish.style.top = (20+Math.random()*60)+"vh";
+    fish.style.animationDuration = (8+Math.random()*6)+"s";
+    fish.style.animationDelay = Math.random()*6+"s";
+    document.body.appendChild(fish);
+  }
+
+  // Bubbles interactive
+  function createBubble(){
+    const bubble = document.createElement("div");
+    const size = Math.random()*4+2;
+    bubble.className="bubble";
+    bubble.style.width = size+"vw";
+    bubble.style.height = size+"vw";
+    bubble.style.left = Math.random()*100+"vw";
+    bubble.style.animationDuration = (5+Math.random()*6)+"s";
+    bubble.onclick = () => {
+      bubble.style.transform = "scale(1.5)";
+      bubble.style.opacity = 0;
+      setTimeout(()=>bubble.remove(),300);
+    }
+    document.body.appendChild(bubble);
+    setTimeout(()=>bubble.remove(),12000);
+  }
+  setInterval(createBubble, 300);
+
+  // Flowers
+  const flowerIcons=["🌸","🌺","🌷","💮","🌹"];
+  function createFlower(){
+    const flower = document.createElement("div");
+    flower.className="flower";
+    flower.textContent = flowerIcons[Math.floor(Math.random()*flowerIcons.length)];
+    flower.style.left=Math.random()*90+"vw";
+    flower.style.animationDuration=(8+Math.random()*8)+"s";
+    document.body.appendChild(flower);
+    setTimeout(()=>flower.remove(),15000);
+  }
+  setInterval(createFlower, 1200);
+
+  // Stars
+  for(let i=0;i<50;i++){
+    const star = document.createElement("div");
+    star.className="star";
+    star.style.left=Math.random()*100+"vw";
+    star.style.top=Math.random()*100+"vh";
+    star.style.animationDuration = 1 + Math.random()*1.5 + "s";
+    document.body.appendChild(star);
+  }
+
+  // Music control
+  const music = document.getElementById("bgMusic");
+  function toggleMusic(){
+    if(music.paused){ music.play(); }
+    else{ music.pause(); }
+  }
+</script>
+
+</body>
+</html>
