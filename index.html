@@ -204,21 +204,33 @@
   ];
   let index = 0;
 
-  function showMessage() {
-    const msg = document.getElementById("msg");
-    msg.textContent = messages[index];
-    msg.classList.add("show");
-    index = (index + 1) % messages.length;
+  const images = ["us.jpg", "us2.jpg", "us3.jpg", "us4.jpg"]; // add your image filenames here
+let imgIndex = 0;
 
-    const note = document.createElement("div");
-    note.className = "note";
-    note.textContent = messages[Math.floor(Math.random()*messages.length)];
-    note.style.left = Math.random()*90 + "vw";
-    note.style.top = "80vh";
-    note.style.animationDuration = 5 + Math.random()*2 + "s";
-    document.body.appendChild(note);
-    setTimeout(()=>note.remove(),7000);
-  }
+function showMessage() {
+  const msg = document.getElementById("msg");
+  const panImg = document.getElementById("panImg");
+
+  // Change message
+  msg.textContent = messages[index];
+  msg.classList.add("show");
+  index = (index + 1) % messages.length;
+
+  // Change image
+  panImg.src = images[imgIndex];
+  imgIndex = (imgIndex + 1) % images.length;
+
+  // Floating note
+  const note = document.createElement("div");
+  note.className = "note";
+  note.textContent = messages[Math.floor(Math.random()*messages.length)];
+  note.style.left = Math.random()*90 + "vw";
+  note.style.top = "80vh";
+  note.style.animationDuration = 5 + Math.random()*2 + "s";
+  document.body.appendChild(note);
+  setTimeout(()=>note.remove(),7000);
+}
+
 
   // Fishes
   const fishColors = ["orange","gold","coral","lime","aqua","pink"];
